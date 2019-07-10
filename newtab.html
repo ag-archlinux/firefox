@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New Tab</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+        *{margin: 0;padding: 0;margin: 0;}
+        body{background-image: url('https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fgetwallpapers.com%2Fwallpaper%2Ffull%2F7%2Fb%2Fc%2F271228.jpg&f=1');background-repeat: no-repeat;background-size: 100%;}
+        #search{width:80%;height: 80px;display: flex;margin: 10% auto 10% auto;float: left;}
+        #duck_logo{width: 250px;height: 80px;display: block;position: relative;background-image: url("https://duckduckgo.com/assets/logo_homepage_mobile.normal.v107.svg");background-position: 50% 50%;background-repeat: no-repeat;background-size: 100%;margin-left: auto;}
+        #searchField{width:500px;height: 40px;background-color: #fff;margin-top:15px;padding-left: 15px; }
+        #searchField-div{width:500px;height: 80px;margin-right: auto;}
+
+        #time-date{width: 20%;float: right;margin: 5% auto 5% auto;}
+        #date-part{width: 50%;margin:auto;height: 5%;color: #FFF;font-size: 1.25em;text-align:center;}
+        #time-part{width: 70%;margin:auto;height: 15%;color: #FFF;font-size: 7em;text-align: center;font-family: Times New Roman;}
+
+
+        .my-bookmark{width: 100px;height: 120px;display: inline-block;margin:15px 15px 0 15px;}
+        .icon{width:90px;height: 90px; padding:5px 5px 5px 5px;background-color: #fff;border-radius: 20px;border:2px rgba(0,0,0,0.7) solid;}
+        .name{color: #66ccaa;margin-top: 5px;text-decoration: none;text-align: center;padding-right: 10px;font-size: 1.2em;font-weight: bold;}
+
+        a:hover, a:visited, a:link, a:active {text-decoration: none!important;-webkit-box-shadow: none!important;box-shadow: none!important;}
+        #bookmarks{width: 80%;display: block;margin: 20% 10% 10% 10%;position: absolute;}
+
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+        var bookmark_html = '';
+        $.ajax({
+            url:"bookmarks.csv",
+            dataType:"text",
+            success:function(data){
+                var bookmarks = data.split(/\r?\n|\r/);
+                for(var count = 1; count<bookmarks.length; count++){
+                    var bookmarks_row = bookmarks[count].split(",");
+                    bookmark_html += '<a class="my-bookmark" href="'+ bookmarks_row[1] + '"><img class="icon" src="'+bookmarks_row[2]+'"><p class="name">'+bookmarks_row[0]+'</p></a>';
+                }
+                $('#bookmarks').html(bookmark_html);
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        var tday=new Array("SUNDAY","MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY");
+        var tmonth=new Array("JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC");
+        var tdate=new Array("31ST","1ST","2ND","3RD","4TH","5TH","6TH","7TH","8TH","9TH","10TH","11TH","12TH","13TH","14TH","15TH","16TH","17TH","18TH","19TH","20TH","21ST","22ND","23RD","24TH","25TH","26TH","27TH","28TH","29TH","30TH");
+
+        function GetClock(){
+            //date
+            var nday=new Date().getDay(),nmonth=new Date().getMonth(),ndate=new Date().getDate();
+
+            document.getElementById('date-part').innerHTML=""+tday[nday]+" "+tdate[ndate]+" "+tmonth[nmonth]+"";
+
+            //time
+            var nhour=new Date().getHours(),nmin=new Date().getMinutes();
+            if(nhour<=9){nhour="0"+nhour}
+            if(nmin<=9){nmin="0"+nmin}
+            document.getElementById('time-part').innerHTML=""+nhour+":"+nmin+"";
+        }
+
+        window.onload=function(){
+        GetClock();
+        setInterval(GetClock,10000);
+}
+</script>
+</head>
+<body>
+    <div id="search">
+        <a id="duck_logo" href="https://duckduckgo.com/"></a>
+        <div id="searchField-div"><form onsubmit="duckSearch()" action="javascript:void(0)">
+            <input id="searchField" type="text" value="" placeholder="Search..." autofocus="autofocus">
+        </form></div>
+    </div>
+    <div id="time-date">
+        <div id="date-part"></div>
+        <div id="time-part"></div>
+    </div>
+    <div id="bookmarks"></div>
+</body>
+    <script type="text/javascript">
+        function duckSearch() {
+            var searchField = document.getElementById("searchField");
+            if (searchField && searchField.value) {
+                var query = escape("site:jonbeebe.net " + searchField.value);
+                window.location.href = "https://duckduckgo.com/?q=" + query;
+            }
+        }
+    </script>
+</html>
