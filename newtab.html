@@ -31,7 +31,7 @@
   <script>
         var bookmark_html = '';
         $.ajax({
-            url:"bookmarks.csv",
+            url:"https://raw.githubusercontent.com/ag-archlinux/firefox/master/bookmarks.csv",
             dataType:"text",
             success:function(data){
                 var bookmarks = data.split(/\r?\n|\r/);
